@@ -1,11 +1,14 @@
 import requests
+from twilio.rest import Client
 
 api_key = "a39893191f4756f82bc93259ed3d484a"
+account_sid = "AC47824f371eb909359194db481dddfaff"
+auth_token = "cdab63909e19f2bc3743cca0c110c2d5"
 
 # Parameters for the weather data
 parameters = {
-	"lat": 34.052235,
-	"lon": -118.243683,
+	"lat": 38.537201,
+	"lon": -90.313217,
 	"appid": api_key,
 	"exclude": "current,minutely,daily"
 }
@@ -25,13 +28,13 @@ for hour_data in weather_slice:
 		will_rain = True
 
 if will_rain:		
-	print("Bring an umbrella.")
-
-# print(weather_data["hourly"][0]["weather"][0]["id"])
-
-#5 Copy-paste the response to an online JSON viewer (e.g. jsonviewer.stack.hu).
-
-
-
+	client = Client(account_sid, auth_token)
+	message = client.messages \
+		.create(
+			body="It's going to rain today. Remember to bring an ☂️",
+			from_="+19415640801", #You Twilio number
+			to="(314) 827-4781‬", #Your verified number
+	)
+	print(message.status)
 
 
